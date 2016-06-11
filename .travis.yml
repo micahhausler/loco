@@ -1,0 +1,14 @@
+sudo: false
+language: go
+
+go:
+  - 1.6
+  - tip
+
+before_install:
+  - go get golang.org/x/tools/cmd/cover
+
+script:
+  - go test -coverprofile=archive.out  ./archive/
+  - go tool cover -func=archive.out
+  - go run main.go -o - -p password -u user | gunzip - | tar xfO -
