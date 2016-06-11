@@ -1,19 +1,20 @@
 # To build:
-# $ GOOS=linux go build -o loco main.go
-# $ docker build -t micahhausler/loco .
+# $ docker build -t micahhausler/loco:build .
 #
 # To run:
-# $ docker run -v $(pwd):/loco micahhausler/loco -u user -p password -r <registry>
+# $ docker run micahhausler/loco:build -u user -p password -r <registry> -o - | tee docker.tgz
 # or
-# $ docker run -v micahhausler/loco -u user -p password -r <registry> -o - | tee docker.tgz
+# $ docker run -v $(pwd):/loco micahhausler/loco:build -u user -p password -r <registry>
 
-FROM busybox
+FROM golang:1.6-alpine
 
 MAINTAINER Micah Hausler, <hausler.m@gmail.com>
 
-ADD ./loco /bin/loco
+RUN apk -U add git
 
-WORKDDIR /loco
-VOLUME /loco
+ADD . /go/src/github.com/micahhausler/loco
+WORKDIR /go/src/github.com/micahhausler/loco
+RUN go get ./... \
+    && go build
 
-ENTRYPOINT ["/bin/loco"]
+ENTRYPOINT ["/go/bin/loco"]
