@@ -62,12 +62,13 @@ func (c LoginConfig) CreateArchive() {
 	}
 
 	var f *os.File
+	var err error
 	if c.OutputFile != "-" {
-		f, err := os.Create(c.OutputFile)
+		f, err = os.Create(c.OutputFile)
+		defer f.Close()
 		if err != nil {
 			log.Fatalln(err)
 		}
-		defer f.Close()
 	} else {
 		f = os.Stdout
 	}
