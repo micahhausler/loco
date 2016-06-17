@@ -15,7 +15,7 @@ var version = flag.Bool("version", false, "print version and exit")
 var registry = flag.StringP("registry", "r", "https://index.docker.io/v1/", "Specify a specific registry")
 var username = flag.StringP("username", "u", "", "The user to login as")
 var password = flag.StringP("password", "p", "", "The password ")
-var outfile = flag.StringP("output", "o", "docker.tgz", "The file to create. Use \"-\" for Stdout.")
+var outfile = flag.StringP("output", "o", "docker.tar.gz", "The file to create. Use \"-\" for Stdout.")
 
 func main() {
 

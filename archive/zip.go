@@ -21,7 +21,7 @@ type LoginConfig struct {
 func (c LoginConfig) CreateConfig() []byte {
 	loginConfig := map[string]map[string]map[string]string{}
 	loginConfig["auths"] = make(map[string]map[string]string)
-	loginConfig["auths"]["https://index.docker.io/v1/"] = make(map[string]string)
+	loginConfig["auths"][c.Registry] = make(map[string]string)
 	authString := fmt.Sprintf("%s:%s", c.Username, c.Password)
 	loginConfig["auths"][c.Registry]["auth"] = base64.StdEncoding.EncodeToString([]byte(authString))
 	data, _ := json.MarshalIndent(loginConfig, "", "    ")

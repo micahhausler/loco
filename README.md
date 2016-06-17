@@ -9,7 +9,22 @@ from [private repositories](https://mesosphere.github.io/marathon/docs/native-do
 but requires a `fetch` object with the bundled credentials. Rather than logging
 in using the docker cli and altering a developer's `~/.docker/config.json` which
 may have have credentials to other registries, loco creates the directory and
-config file in memory, and generates a `docker.tgz`.
+config file in memory, and generates a `docker.tar.gz`.
+
+The config file looks like this:
+
+```json
+{
+    "auths": {
+        "https://index.docker.io/v1/": {  # or your index
+            "auth": "<base64 encoded username:password>"
+        }
+    }
+}
+```
+
+This file can then be uploaded to some filestore and served to the marathon
+process by adding a `fetch` object to the application definition.
 
 ```json
 {
@@ -26,7 +41,7 @@ config file in memory, and generates a `docker.tgz`.
 ## Installation
 
 ```
-go get github.com/micahhausler/loco
+go get -u github.com/micahhausler/loco
 # or
 docker pull micahhausler/loco
 ```
@@ -38,7 +53,7 @@ loco -h
 Docker Login Compressor
 Usage of ./loco:
 
-  -o, --output string     The file to create. Use "-" for Stdout. (default "docker.tgz")
+  -o, --output string     The file to create. Use "-" for Stdout. (default "docker.tar.gz")
   -p, --password string   The password
   -r, --registry string   Specify a specific registry (default "https://index.docker.io/v1/")
   -u, --username string   The user to login as
