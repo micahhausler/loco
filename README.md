@@ -11,7 +11,7 @@ in using the docker cli and altering a developer's `~/.docker/config.json` which
 may have have credentials to other registries, loco creates the directory and
 config file in memory, and generates a `docker.tar.gz`.
 
-The config file looks like this:
+The uncompressed config file looks like this:
 
 ```json
 {
